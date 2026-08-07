@@ -1,0 +1,203 @@
+/* ── hero ─────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: calc(100dvh - 3.75rem);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.heroInner {
+  position: relative;
+  width: 100%;
+  padding-block: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.heroFrame {
+  padding: clamp(1.5rem, 5vw, 4rem);
+  background: rgba(14, 13, 11, 0.55);
+}
+
+.heroEyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--ash);
+  max-width: 34rem;
+  margin-bottom: var(--space-6);
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-6);
+}
+
+.heroTitle em {
+  color: var(--signal-cyan);
+}
+
+.heroSub {
+  max-width: 40rem;
+  color: var(--bone-dim);
+  margin-bottom: var(--space-7);
+}
+
+.heroSubAccent {
+  color: var(--bone);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.heroFoot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+/* ── shared two-column split ──────────────────────────────────── */
+.split {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (min-width: 60rem) {
+  .split {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+/* ── principles ───────────────────────────────────────────────── */
+.principles {
+  display: grid;
+  gap: var(--space-7);
+}
+
+@media (min-width: 60rem) {
+  .principles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.principle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--space-5);
+}
+
+/* ── transparency badges ──────────────────────────────────────── */
+.badgeList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+/* ── build card ───────────────────────────────────────────────── */
+.buildCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border: 1px solid var(--rule-strong);
+  padding: var(--space-6);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-state);
+  max-width: 52rem;
+}
+
+.buildCard:hover {
+  border-color: var(--signal-cyan);
+}
+
+.buildTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  color: var(--bone);
+}
+
+.buildState {
+  color: var(--ash);
+  font-size: var(--text-small);
+  max-width: 60ch;
+}
+
+.buildCard .status-pill {
+  align-self: flex-start;
+}
+
+/* ── community surfaces ───────────────────────────────────────── */
+.surfaces {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 48rem) {
+  .surfaces {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 72rem) {
+  .surfaces {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.surface {
+  border: 1px solid var(--rule);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 11rem;
+}
+
+.surfaceRole {
+  color: var(--ash);
+  font-size: var(--text-small);
+  flex-grow: 1;
+}
+
+/* ── final frame ──────────────────────────────────────────────── */
+.finalFrame {
+  padding: clamp(2rem, 7vw, 5.5rem);
+  text-align: left;
+}
+
+.finalTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  line-height: var(--leading-display);
+  margin-bottom: var(--space-7);
+}
+
+.finalTitle em {
+  color: var(--signal-cyan);
+}
+
+.finalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}

@@ -1,0 +1,431 @@
+@import "./tokens.css";
+
+/* ── reset ─────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background-color: var(--ink);
+  /* Ledger ruling: the ground itself is ruled paper for an append-only
+     record. Kept just above the threshold of perception. */
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 27px,
+    var(--ledger-line) 27px,
+    var(--ledger-line) 28px
+  );
+  color: var(--bone);
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100dvh;
+}
+
+::selection {
+  background: var(--signal-cyan);
+  color: var(--ink);
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 0.2em;
+  transition: color var(--duration-fast) var(--ease-state),
+    text-decoration-color var(--duration-fast) var(--ease-state);
+}
+
+a:hover {
+  color: var(--signal-cyan);
+  text-decoration-color: var(--signal-cyan);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* ── typography ───────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  line-height: var(--leading-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.display em,
+.display .accent-line {
+  font-style: italic;
+}
+
+.title {
+  font-family: var(--font-ui);
+  font-size: var(--text-title);
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.mono,
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+}
+
+.mono-label {
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+.prose {
+  max-width: var(--measure);
+  color: var(--bone-dim);
+}
+
+.prose p + p {
+  margin-top: 1em;
+}
+
+.prose strong {
+  color: var(--bone);
+  font-weight: 500;
+}
+
+/* ── layout ───────────────────────────────────────────────────── */
+.container {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.section {
+  padding-block: var(--space-section);
+  border-top: 1px solid var(--rule);
+}
+
+.section--flush {
+  border-top: none;
+}
+
+/* Record header: every section opens like a ledger entry. */
+.record-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+}
+
+.record-header .mono-label a {
+  text-decoration: none;
+}
+
+/* ── open frame: the signature ────────────────────────────────── */
+/* A state cell with one permanently open boundary. The gap in the top
+   edge is the mark of the system: it can always receive another event. */
+.open-frame {
+  position: relative;
+  border: 1px solid var(--rule-strong);
+  border-top: none;
+}
+
+.open-frame::before,
+.open-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 1px;
+  background: var(--rule-strong);
+}
+
+.open-frame::before {
+  left: 0;
+  width: calc(62% - 2.25rem);
+}
+
+.open-frame::after {
+  right: 0;
+  width: calc(38% - 2.25rem);
+}
+
+/* Small cyan tick drifting out of the opening. */
+.open-frame > .frame-tick {
+  position: absolute;
+  top: -0.85rem;
+  left: 62%;
+  width: 1px;
+  height: 0.85rem;
+  background: var(--signal-cyan);
+}
+
+/* ── controls ─────────────────────────────────────────────────── */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--bone);
+  border: 1px solid var(--rule-strong);
+  padding: 0.9em 1.4em;
+  transition: border-color var(--duration-fast) var(--ease-state),
+    color var(--duration-fast) var(--ease-state),
+    background-color var(--duration-fast) var(--ease-state);
+}
+
+.cta .arrow {
+  transition: transform var(--duration-fast) var(--ease-state);
+}
+
+.cta:hover {
+  color: var(--signal-cyan);
+  border-color: var(--signal-cyan);
+  background: rgba(89, 217, 195, 0.04);
+}
+
+.cta:hover .arrow {
+  transform: translateX(0.35em);
+}
+
+.cta--primary {
+  border-color: var(--bone);
+}
+
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.arrow-link .arrow {
+  transition: transform var(--duration-fast) var(--ease-state);
+}
+
+.arrow-link:hover .arrow {
+  transform: translateX(0.35em);
+}
+
+/* ── status + badges ──────────────────────────────────────────── */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--ash);
+  border: 1px solid var(--rule);
+  padding: 0.35em 0.75em;
+}
+
+.status-pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-dot);
+  background: var(--ash);
+}
+
+.status-pill[data-tone="live"] .dot,
+.status-pill[data-tone="verified"] .dot {
+  background: var(--signal-green);
+}
+
+.status-pill[data-tone="building"] .dot,
+.status-pill[data-tone="system"] .dot {
+  background: var(--signal-cyan);
+}
+
+.status-pill[data-tone="milestone"] .dot {
+  background: var(--signal-yellow);
+}
+
+.status-pill[data-tone="caution"] .dot,
+.status-pill[data-tone="disclosed"] .dot {
+  background: var(--signal-ember);
+}
+
+.status-pill[data-tone="sunset"] .dot {
+  background: var(--signal-coral);
+}
+
+/* ── tables ───────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+
+.data-table th {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--ash);
+  text-align: left;
+  font-weight: 400;
+  padding: 0.75em 1em 0.75em 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.data-table td {
+  padding: 0.85em 1em 0.85em 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--bone-dim);
+  vertical-align: top;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* ── disclosure (FAQ) ─────────────────────────────────────────── */
+.disclosure {
+  border-bottom: 1px solid var(--rule);
+}
+
+.disclosure summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-5) 0;
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure summary::after {
+  content: "+";
+  font-family: var(--font-mono);
+  color: var(--ash);
+  flex-shrink: 0;
+}
+
+.disclosure[open] summary::after {
+  content: "−";
+  color: var(--signal-cyan);
+}
+
+.disclosure .disclosure-body {
+  padding-bottom: var(--space-5);
+  max-width: var(--measure);
+  color: var(--bone-dim);
+}
+
+/* ── skip link ────────────────────────────────────────────────── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-skip);
+  background: var(--bone);
+  color: var(--ink);
+  padding: 0.75em 1.25em;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  top: var(--space-4);
+  color: var(--ink);
+}
+
+/* ── scroll reveal ────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity var(--duration-reveal) var(--ease-state),
+    transform var(--duration-reveal) var(--ease-state);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── utility ──────────────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
