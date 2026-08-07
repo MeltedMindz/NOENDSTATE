@@ -34,8 +34,10 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Install Playwright Chromium
-        run: pnpm exec playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        # Both browsers the configured projects need: desktop runs Chromium,
+        # the iPhone 14 project runs WebKit (its device default).
+        run: pnpm exec playwright install --with-deps chromium webkit
 
       - name: E2E tests
         run: pnpm test:e2e
