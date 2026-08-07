@@ -84,7 +84,7 @@ export default function ProjectsPage() {
       <section className="section">
         <div className="container">
           <RecordHeader serial="02.1" label="The lifecycle" />
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="data-table" style={{ maxWidth: "56rem" }}>
               <thead>
                 <tr>

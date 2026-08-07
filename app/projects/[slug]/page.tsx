@@ -60,7 +60,7 @@ export default async function ProjectPage({
       <section className="section">
         <div className="container">
           <RecordHeader serial={`${project.id}.2`} label="Record" />
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="data-table" style={{ maxWidth: "56rem" }}>
               <tbody>
                 <tr>

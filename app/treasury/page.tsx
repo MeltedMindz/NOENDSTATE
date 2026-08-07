@@ -58,7 +58,7 @@ export default function TreasuryPage() {
       <section className="section">
         <div className="container">
           <RecordHeader serial="05.2" label="Data classification" />
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="data-table" style={{ maxWidth: "60rem" }}>
               <thead>
                 <tr>
@@ -92,7 +92,7 @@ export default function TreasuryPage() {
       <section className="section">
         <div className="container">
           <RecordHeader serial="05.3" label="Contracts" />
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="data-table" style={{ maxWidth: "60rem" }}>
               <thead>
                 <tr>

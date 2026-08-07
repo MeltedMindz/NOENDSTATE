@@ -55,7 +55,7 @@ export default function StatusPage() {
       <section className="section" style={{ marginTop: "var(--space-8)" }}>
         <div className="container">
           <RecordHeader serial="10.1" label="Systems" />
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="data-table" style={{ maxWidth: "64rem" }}>
               <thead>
                 <tr>
@@ -86,7 +86,7 @@ export default function StatusPage() {
       <section className="section">
         <div className="container">
           <RecordHeader serial="10.2" label="This deployment" />
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="data-table" style={{ maxWidth: "48rem" }}>
               <tbody>
                 <tr>

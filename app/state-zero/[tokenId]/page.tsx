@@ -93,7 +93,7 @@ export default async function StateZeroTokenPage({
           />
           <div>
             <RecordHeader serial={`${serial}.1`} label="Identity" />
-            <div className="table-scroll">
+            <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable table">
               <table className="data-table">
                 <tbody>
                   <tr>

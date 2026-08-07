@@ -62,7 +62,7 @@ export default async function ChronicleEventPage({
               <p>{event.body}</p>
             </div>
           ) : null}
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label="Scrollable table">
             <table className="data-table" style={{ maxWidth: "48rem" }}>
               <tbody>
                 <tr>
