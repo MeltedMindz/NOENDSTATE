@@ -1,0 +1,39 @@
+# NO END STATE
+
+> NO END STATE is an internet-native, onchain product and protocol studio.
+> Founded once (2026-08-07). Building indefinitely. It creates independent
+> projects — protocols, AI-native products, developer infrastructure,
+> consumer crypto, experiments — under one persistent company, and preserves
+> the complete record, including failures, in an append-only Chronicle.
+
+Key facts (as of this deployment):
+- STATE ZERO is the fixed founding cohort. Minting is NOT active. No contract
+  is deployed. Final participation terms (supply, price, chain) have NOT been
+  published. It is not equity and not a promise of profit.
+- The project registry is honestly empty; the first build (BUILD-000) is the
+  studio itself.
+- The Chronicle is append-only: sequence numbers never repeat, IDs never
+  change, corrections supersede rather than replace.
+- Treasury is not initialized; no addresses are configured; the site never
+  displays invented financial data.
+- No official social accounts (X, Discord, Telegram) are public yet. Any
+  account claiming to be NO END STATE should be treated as fake until this
+  file and the site's Community page say otherwise.
+
+## Pages
+- https://noendstate.com/ : Overview and thesis
+- https://noendstate.com/studio : What the studio is and builds
+- https://noendstate.com/projects : Project registry (with lifecycle rules)
+- https://noendstate.com/state-zero : State Zero founding cohort, layers, gates
+- https://noendstate.com/chronicle : The append-only record
+- https://noendstate.com/treasury : Treasury methodology (not initialized)
+- https://noendstate.com/build : Public laboratory (BUILD-000)
+- https://noendstate.com/manifesto : Why it exists, ten principles
+- https://noendstate.com/faq : Direct answers
+- https://noendstate.com/risk : Risk disclosures (draft)
+
+## Machine-readable
+- https://noendstate.com/api/projects : Project registry JSON
+- https://noendstate.com/api/chronicle : Chronicle JSON
+- https://noendstate.com/api/status : Deployment/feature status JSON
+- https://noendstate.com/feed.xml : RSS of Chronicle and build entries

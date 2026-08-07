@@ -1,0 +1,134 @@
+# =============================================================================
+# NO END STATE — Telegram structure
+# =============================================================================
+# Source of truth for the Telegram presence.
+#
+# Status: NEITHER SURFACE EXISTS YET. Telegram is "not_yet_public" in
+# config/community.ts. Launch is manual — see
+# community/telegram/launch-sequence.md and docs/community/telegram.md.
+#
+# Two surfaces, deliberately separate:
+#   1. A broadcast channel — official announcements only, read-only.
+#   2. A discussion group with forum topics — conversation.
+# Keeping them separate means an announcement can always be trusted to come
+# from the team, and the group can be lively without polluting the record.
+# =============================================================================
+
+surfaces:
+  announcements_channel:
+    name: "NO END STATE — Announcements"
+    type: channel                # broadcast channel, not a group
+    visibility: public
+    posting: admins_only         # Founder and Operator admin accounts
+    signatures: true             # show admin signatures on posts
+    discussion_link: discussion_group   # linked group for comments
+    description_source: community/telegram/channel-description.md
+    pinned_message_source: community/telegram/pinned-message.md
+    purpose: >
+      The official NO END STATE announcement feed on Telegram. Low volume:
+      Chronicle events, releases, security notices, and studio announcements
+      that also appear on noendstate.com. If it is not posted here or on the
+      site, it is not an official announcement.
+    rules:
+      - Read-only for members; only admins post.
+      - Every post mirrors or links content on noendstate.com.
+      - No countdowns, no manufactured urgency, no unpublished addresses.
+      - Security notices are posted here and pinned for their duration.
+
+  discussion_group:
+    name: "NO END STATE — Discussion"
+    type: supergroup
+    visibility: public
+    forum_topics: true           # Telegram "Topics" enabled
+    description_source: community/telegram/group-description.md
+    pinned_message_source: community/telegram/pinned-message.md
+    moderation_source: community/telegram/moderation.md
+    security_source: community/telegram/security.md
+    defaults:
+      slow_mode_seconds: 0       # enable 30-60s during high-traffic events
+      members_can_add_members: true
+      admins_only_pin: true
+      admins_only_change_info: true
+    purpose: >
+      The fast-moving public conversation. Organized into topics so the group
+      stays readable. Support happens in public topics — never in DMs.
+    topics:
+      - name: General
+        purpose: >
+          Default conversation. Anything NO END STATE that fits nowhere more
+          specific.
+        posting: everyone
+        rules:
+          - Standard group rules apply (see pinned message).
+          - Moderators redirect topic-specific talk to its topic.
+
+      - name: State Zero
+        purpose: >
+          Discussion of the STATE ZERO founding cohort. The topic's first
+          message restates current truth: minting not active, no contract
+          deployed, no supply/price/chain published, not an investment, and
+          there will never be a second founding collection.
+        posting: everyone
+        rules:
+          - No mint links, allowlist forms, or addresses — none exist; all
+            such links are scams and are removed with a ban.
+          - No price speculation content.
+
+      - name: Projects
+        purpose: >
+          Discussion of launched projects. The project registry is currently
+          empty, so this topic starts as a place to discuss what the studio
+          might build. Per-project topics are added from the registry when
+          projects launch (see community/telegram/project-topic-template.md).
+        posting: everyone
+        rules:
+          - When a project has its own topic, its discussion moves there.
+
+      - name: Build Log
+        purpose: >
+          Mirrors of build-log entries from noendstate.com/build, posted by
+          admins; members discuss each entry in replies.
+        posting: admins_post_members_reply
+        rules:
+          - Admins post entries; conversation happens in replies to them.
+
+      - name: Chronicle
+        purpose: >
+          Chronicle events (NES-NNNN) posted as they are recorded, with links
+          to noendstate.com/chronicle. Append-only in spirit — posts are not
+          edited after the fact; corrections are posted as new entries.
+        posting: admins_post_members_reply
+        rules:
+          - Admins post events; members discuss in replies.
+
+      - name: Support
+        purpose: >
+          Public help. Ask, get answered in the topic. The team never
+          initiates DMs; anyone DMing "support" is an impersonator.
+        posting: everyone
+        rules:
+          - One problem per message thread where possible.
+          - No admin will ever DM you first; report DM "support" in Security.
+
+      - name: Security
+        purpose: >
+          Scam reports and security questions. Impersonators, fake links,
+          fake mints, suspicious DMs — post screenshots here. Admins triage
+          every report. Official security notices land in the announcements
+          channel; this topic is for member reports and discussion.
+        posting: everyone
+        rules:
+          - Do not post vulnerability details for anything we ship — use the
+            private security contact on noendstate.com.
+          - Reports of scams are never off-topic here.
+
+admin_policy:
+  admins: [Founder, Operator]        # small by design; grows only with the team
+  requirements:
+    - Two-factor authentication on every admin account.
+    - Admin rights scoped: group admins get delete/ban/pin, not "add admins".
+    - Only Founder can add or remove admins.
+  bots:
+    - No bots at launch. Any future bot (moderation, Chronicle mirror) is
+      reviewed per community/discord/security.md bot checklist before being
+      added, and never gets more than delete/restrict rights.
