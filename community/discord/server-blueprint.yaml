@@ -1,0 +1,481 @@
+# =============================================================================
+# NO END STATE — Discord server blueprint
+# =============================================================================
+# Source of truth for the Discord server structure.
+#
+# Status: NO SERVER EXISTS YET. Discord is "not_yet_public" in
+# config/community.ts. This blueprint is executed manually at launch
+# (see docs/community/discord.md), then kept in sync with the server.
+#
+# scripts/community-sync.mjs reads the project registry
+# (content/projects/index.ts) and plans PROJECT categories from the template
+# in this file. Dry-run is the default and currently the only mode. Apply
+# mode requires DISCORD_BOT_TOKEN, DISCORD_SERVER_ID, and --apply, and must
+# print a diff and require confirmation before touching anything.
+#
+# Channel fields:
+#   type:      text | forum | announcement
+#   purpose:   what the channel is for
+#   post:      roles that can post. "verified" means any member holding the
+#              Verified role. Everyone can read unless the category or channel
+#              says otherwise. Read-only channels still allow reactions, and
+#              threads where noted.
+#   read_only: true when members read but only the listed roles post.
+# =============================================================================
+
+server:
+  name: "NO END STATE"
+  description: "The studio headquarters. Founded once. Building indefinitely."
+  verification_level: high            # Discord: member of server >10 min before posting
+  default_notifications: mentions_only
+  explicit_content_filter: all_members
+  community_features: true            # required for announcement channels and rules screening
+  rules_channel: rules
+  community_updates_channel: announcements
+  invite_policy: >
+    Invites are created by Operator or above only. The canonical invite link
+    is published in exactly two places: noendstate.com (config/community.ts)
+    and the #official-links channel. Vanity URLs and third-party invite
+    aggregators are not used.
+
+categories:
+  # ---------------------------------------------------------------------------
+  - name: "START HERE"
+    purpose: Orientation. Everything in this category is read-only reference.
+    channels:
+      - name: welcome
+        type: text
+        purpose: >
+          First landing. What this server is, what NO END STATE is, and where
+          to go next. Copy lives in community/discord/welcome-copy.md.
+        post: [Founder, Core, Operator]
+        read_only: true
+
+      - name: rules
+        type: text
+        purpose: >
+          Server rules and enforcement policy. Bound to Discord membership
+          screening — members accept these rules to see the rest of the
+          server. Copy lives in community/discord/welcome-copy.md; policy
+          detail in community/discord/moderation.md.
+        post: [Founder, Core, Operator, Moderator]
+        read_only: true
+
+      - name: how-no-end-state-works
+        type: text
+        purpose: >
+          Plain explanation of the studio model: the Chronicle, the project
+          registry, BUILD-000, STATE ZERO, and what is and is not live today.
+          Copy lives in community/discord/welcome-copy.md.
+        post: [Founder, Core, Operator]
+        read_only: true
+
+      - name: official-links
+        type: text
+        purpose: >
+          The only channel where official links are posted. If a link is not
+          here or on noendstate.com, it is not ours. Also the only channel
+          that will ever list contract addresses — currently there are none,
+          and the channel says so explicitly.
+        post: [Founder, Core, Operator, Security]
+        read_only: true
+
+      - name: announcements
+        type: announcement
+        purpose: >
+          Official studio announcements. Low volume. Mirrors what is published
+          on noendstate.com and the Chronicle.
+        post: [Founder, Core, Operator]
+        read_only: true
+
+      - name: security-alerts
+        type: announcement
+        purpose: >
+          Scam warnings, incident notices, and security-relevant changes.
+          The only channel where an @everyone mention is permitted, and only
+          by Security or Founder. See community/discord/security.md.
+        post: [Founder, Security]
+        read_only: true
+
+  # ---------------------------------------------------------------------------
+  - name: "THE STUDIO"
+    purpose: The main floor. Day-to-day conversation about the work.
+    channels:
+      - name: general
+        type: text
+        purpose: General conversation. The default room.
+        post: [verified]
+        read_only: false
+
+      - name: studio-floor
+        type: text
+        purpose: >
+          Working chat. What is being built today, in public. Team members
+          narrate work in progress; members ask about it.
+        post: [verified]
+        read_only: false
+
+      - name: ideas
+        type: forum
+        purpose: >
+          One idea per thread. Product, protocol, or studio ideas from anyone.
+          Ideas that gain traction move to THE LAB as experiments.
+        post: [verified]
+        read_only: false
+
+      - name: research
+        type: text
+        purpose: >
+          Papers, mechanisms, prior art, links worth reading. Signal over
+          volume; no price talk.
+        post: [verified]
+        read_only: false
+
+      - name: build-log
+        type: text
+        purpose: >
+          Mirror of the public build log (noendstate.com/build). Team posts
+          entries; discussion happens in threads on each entry.
+        post: [Founder, Core, Operator, Bot]
+        read_only: true
+        threads_open_to: [verified]
+
+      - name: shipping
+        type: text
+        purpose: >
+          Things that shipped. Releases, deploys, merged work. Team posts;
+          discussion in threads.
+        post: [Founder, Core, Operator, Bot]
+        read_only: true
+        threads_open_to: [verified]
+
+      - name: questions
+        type: forum
+        purpose: >
+          Questions about NO END STATE, answered in the open so answers are
+          searchable. One question per thread.
+        post: [verified]
+        read_only: false
+
+      - name: feedback
+        type: forum
+        purpose: >
+          Feedback on the site, the docs, the model, or the server itself.
+          Critical feedback is welcome and stays up.
+        post: [verified]
+        read_only: false
+
+  # ---------------------------------------------------------------------------
+  - name: "STATE ZERO"
+    purpose: >
+      The founding cohort. IMPORTANT: minting is not active, no contract is
+      deployed, and no supply, price, or chain has been published. The gated
+      channels below are conceptual until wallet verification through a
+      reviewed provider is configured; they are created hidden and stay hidden
+      until then. Nothing in this category is an offer or an investment.
+    channels:
+      - name: state-zero
+        type: text
+        purpose: >
+          Public discussion of the STATE ZERO concept. Anyone verified can
+          participate; holding nothing is required because nothing can be
+          held yet.
+        post: [verified]
+        read_only: false
+
+      - name: state-zero-faq
+        type: text
+        purpose: >
+          Canonical answers about STATE ZERO, mirroring noendstate.com.
+          States plainly what is not decided yet.
+        post: [Founder, Core, Operator]
+        read_only: true
+
+      - name: holder-lounge
+        type: text
+        purpose: >
+          Conversation for verified STATE ZERO holders. GATED — hidden until
+          a mint exists and wallet verification is configured.
+        post: [State Zero]
+        read_only: false
+        gated: true
+        visible_to: [State Zero, Moderator, Security, Operator, Core, Founder]
+
+      - name: governance
+        type: text
+        purpose: >
+          Holder governance discussion and votes, if and when governance
+          exists. GATED and dormant — no governance process is live.
+        post: [State Zero]
+        read_only: false
+        gated: true
+        visible_to: [State Zero, Moderator, Security, Operator, Core, Founder]
+
+      - name: distribution-ledger
+        type: text
+        purpose: >
+          Append-only record of any distributions to holders. GATED and
+          dormant — no distributions exist and none are promised.
+        post: [Founder, Operator]
+        read_only: true
+        gated: true
+        visible_to: [State Zero, Moderator, Security, Operator, Core, Founder]
+
+      - name: holder-support
+        type: text
+        purpose: >
+          Support for verified holders (verification issues, role problems).
+          GATED and dormant until verification exists. Support never happens
+          in DMs.
+        post: [State Zero, Moderator, Operator, Security]
+        read_only: false
+        gated: true
+        visible_to: [State Zero, Moderator, Security, Operator, Core, Founder]
+
+  # ---------------------------------------------------------------------------
+  - name: "PROJECTS"
+    purpose: >
+      One category per launched project, generated from the project registry
+      (content/projects/index.ts) by scripts/community-sync.mjs. The registry
+      is currently EMPTY, so no project categories exist at launch. BUILD-000
+      (building the studio itself) is covered in THE STUDIO, not here.
+    template:
+      category_name: "PROJECT {NNN} — {NAME}"   # from Project.id (P-NNN) and Project.name
+      channels:
+        - name: overview
+          type: text
+          purpose: >
+            What the project is: one-liner, thesis, status, links — mirrored
+            from the registry record. See community/discord/project-template.md.
+          post: [Founder, Core, Operator]
+          read_only: true
+
+        - name: announcements
+          type: announcement
+          purpose: Project-specific announcements.
+          post: [Founder, Core, Operator]
+          read_only: true
+
+        - name: discussion
+          type: text
+          purpose: General discussion of the project.
+          post: [verified]
+          read_only: false
+
+        - name: development
+          type: text
+          purpose: >
+            Technical discussion — architecture, contracts, integrations.
+            Open to all verified members; Builders and Contributors carry it.
+          post: [verified]
+          read_only: false
+
+        - name: feedback
+          type: forum
+          purpose: Structured feedback and feature requests, one per thread.
+          post: [verified]
+          read_only: false
+
+        - name: support
+          type: text
+          purpose: >
+            User support for the project, in public. Team never initiates
+            DMs; see community/discord/security.md.
+          post: [verified]
+          read_only: false
+
+  # ---------------------------------------------------------------------------
+  - name: "THE LAB"
+    purpose: >
+      Work that is not a project yet, and work that did not survive. The lab
+      is honest by design — failures are recorded, not deleted.
+    channels:
+      - name: experiments
+        type: text
+        purpose: >
+          Active experiments, run in the open. Team and Builders post; anyone
+          discusses in threads.
+        post: [Founder, Core, Operator, Builder]
+        read_only: false
+
+      - name: prototypes
+        type: text
+        purpose: >
+          Working prototypes — demos, testnet deployments, throwaway builds.
+          Nothing here is a product or a commitment.
+        post: [Founder, Core, Operator, Builder]
+        read_only: false
+
+      - name: requests-for-comment
+        type: forum
+        purpose: >
+          RFCs on mechanisms, designs, and decisions. One RFC per thread;
+          anyone verified may comment.
+        post: [Founder, Core, Operator, Builder, Contributor]
+        read_only: false
+
+      - name: failed-experiments
+        type: text
+        purpose: >
+          The record of experiments that did not work, and why. Append-only
+          in spirit: entries are not deleted.
+        post: [Founder, Core, Operator]
+        read_only: true
+        threads_open_to: [verified]
+
+      - name: graveyard
+        type: text
+        purpose: >
+          Sunset and archived work. Every death gets a cause of death.
+        post: [Founder, Core, Operator]
+        read_only: true
+        threads_open_to: [verified]
+
+  # ---------------------------------------------------------------------------
+  - name: "BUILDERS"
+    purpose: People who make things. Open rooms plus a contribution pipeline.
+    channels:
+      - name: developers
+        type: text
+        purpose: Engineering talk — contracts, apps, infra, tooling.
+        post: [verified]
+        read_only: false
+
+      - name: designers
+        type: text
+        purpose: Design talk — brand, interface, typography, motion.
+        post: [verified]
+        read_only: false
+
+      - name: researchers
+        type: text
+        purpose: Mechanism design, economics, and analysis.
+        post: [verified]
+        read_only: false
+
+      - name: security
+        type: text
+        purpose: >
+          General security discussion. NOT for vulnerability reports —
+          those go through the private disclosure route in
+          community/discord/security.md and the site's security policy.
+        post: [verified]
+        read_only: false
+
+      - name: contributors
+        type: text
+        purpose: >
+          Coordination for people actively contributing. Visible to all;
+          posting requires the Contributor role or above.
+        post: [Contributor, Builder, Moderator, Security, Operator, Core, Founder]
+        read_only: false
+
+      - name: bounties
+        type: text
+        purpose: >
+          Open bounties and tasks, posted by the team. Claims and questions
+          happen in threads. No bounties exist yet; the channel launches
+          empty and says so.
+        post: [Founder, Core, Operator]
+        read_only: true
+        threads_open_to: [verified]
+
+      - name: show-your-work
+        type: forum
+        purpose: >
+          Members share things they built — related to NO END STATE or not.
+          One build per thread. No token shills.
+        post: [verified]
+        read_only: false
+
+  # ---------------------------------------------------------------------------
+  - name: "THE CHRONICLE"
+    purpose: >
+      Read-only mirror of the public company record (noendstate.com/chronicle,
+      event IDs NES-0000 and up). Corrections append; nothing is rewritten or
+      deleted. Posts are made by the team or by a bot mirroring the site feed.
+    channels:
+      - name: milestones
+        type: text
+        purpose: Chronicle events that mark milestones.
+        post: [Founder, Core, Operator, Bot]
+        read_only: true
+
+      - name: releases
+        type: text
+        purpose: Chronicle events for releases and launches.
+        post: [Founder, Core, Operator, Bot]
+        read_only: true
+
+      - name: incidents
+        type: text
+        purpose: Chronicle events for incidents, posted per the incident process.
+        post: [Founder, Core, Operator, Security, Bot]
+        read_only: true
+
+      - name: postmortems
+        type: text
+        purpose: Published postmortems. Failures are part of the record.
+        post: [Founder, Core, Operator, Security, Bot]
+        read_only: true
+
+      - name: governance-history
+        type: text
+        purpose: >
+          Record of governance decisions, if and when governance exists.
+          Dormant at launch.
+        post: [Founder, Core, Operator, Bot]
+        read_only: true
+
+      - name: treasury-events
+        type: text
+        purpose: >
+          Treasury-relevant events, mirroring noendstate.com/treasury.
+          Dormant until there is something to report.
+        post: [Founder, Operator, Bot]
+        read_only: true
+
+      - name: archive
+        type: text
+        purpose: >
+          Older Chronicle entries and superseded records, preserved. Nothing
+          is deleted from the Chronicle; this is where age goes.
+        post: [Founder, Core, Operator, Bot]
+        read_only: true
+
+  # ---------------------------------------------------------------------------
+  - name: "SUPPORT"
+    purpose: Getting help, reporting problems, reaching the team — in public.
+    channels:
+      - name: help
+        type: forum
+        purpose: >
+          General help. One issue per thread. The team and moderators answer
+          in the thread, never by DM.
+        post: [verified]
+        read_only: false
+
+      - name: bug-reports
+        type: forum
+        purpose: >
+          Bug reports for the site or anything we ship. One bug per thread.
+          Security vulnerabilities do NOT go here — use the private
+          disclosure route in community/discord/security.md.
+        post: [verified]
+        read_only: false
+
+      - name: scam-reports
+        type: text
+        purpose: >
+          Report impersonators, fake links, fake mints, and phishing.
+          Security triages every report. See community/discord/security.md.
+        post: [verified]
+        read_only: false
+
+      - name: contact-the-team
+        type: text
+        purpose: >
+          Direct, public line to the team for anything that fits nowhere
+          else. Async; answered when someone is at the desk.
+        post: [verified]
+        read_only: false

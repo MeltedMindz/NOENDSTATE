@@ -46,10 +46,12 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-1);
 }
 
 .navCol a {
+  display: inline-block;
+  padding-block: 0.3em; /* 24px+ touch target */
   font-family: var(--font-mono);
   font-size: var(--text-mono);
   letter-spacing: var(--tracking-mono);
@@ -67,8 +69,7 @@
   font-size: var(--text-mono);
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
-  color: var(--graphite);
-  color: rgba(138, 134, 124, 0.55);
+  color: var(--ash);
   display: flex;
   flex-direction: column;
   gap: 0.15em;

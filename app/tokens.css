@@ -8,7 +8,7 @@
   --ink-raised: #14130f; /* raised surfaces, cards */
   --ink-overlay: rgba(14, 13, 11, 0.92); /* menu / dialog scrim */
   --graphite: #24221d; /* borders on surfaces, deep neutral */
-  --ash: #8a867c; /* secondary text, quiet strokes */
+  --ash: #98948a; /* secondary text, quiet strokes — AA on ink at all sizes */
   --bone: #e9e4d8; /* warm off-white — primary type */
   --bone-dim: #c9c4b6; /* long-form body text */
 

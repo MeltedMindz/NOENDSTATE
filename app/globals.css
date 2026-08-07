@@ -28,16 +28,9 @@ html {
 }
 
 body {
+  /* Opaque ground so text contrast is computable everywhere; the ledger
+     ruling lives on a fixed overlay behind content (body::before). */
   background-color: var(--ink);
-  /* Ledger ruling: the ground itself is ruled paper for an append-only
-     record. Kept just above the threshold of perception. */
-  background-image: repeating-linear-gradient(
-    180deg,
-    transparent 0,
-    transparent 27px,
-    var(--ledger-line) 27px,
-    var(--ledger-line) 28px
-  );
   color: var(--bone);
   font-family: var(--font-ui);
   font-size: var(--text-body);
@@ -45,6 +38,23 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   min-height: 100dvh;
+}
+
+/* Ledger ruling: the ground itself is ruled paper for an append-only
+   record. Kept just above the threshold of perception. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 27px,
+    var(--ledger-line) 27px,
+    var(--ledger-line) 28px
+  );
 }
 
 ::selection {
@@ -275,7 +285,8 @@ h4 {
   text-transform: uppercase;
   color: var(--ash);
   border: 1px solid var(--rule);
-  padding: 0.35em 0.75em;
+  padding: 0.5em 0.85em;
+  min-height: 24px; /* WCAG 2.2 target size when used as a control */
 }
 
 .status-pill .dot {
