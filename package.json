@@ -1,0 +1,40 @@
+{
+  "name": "noendstate",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NO END STATE — Founded once. Building indefinitely. A permanent record of an unfinished company.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:contracts": "cd contracts && forge test",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test tests/e2e/a11y.spec.ts",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e",
+    "studio:new-project": "node scripts/new-project.mjs",
+    "studio:new-event": "node scripts/new-event.mjs",
+    "community:sync": "node scripts/community-sync.mjs"
+  },
+  "packageManager": "pnpm@10.28.1",
+  "dependencies": {
+    "next": "^16.3.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@eslint/eslintrc": "^3.3.6",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "eslint": "^10.8.0",
+    "eslint-config-next": "^16.3.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}

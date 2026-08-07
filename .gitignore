@@ -1,0 +1,53 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+next-env.d.ts
+
+# production
+build/
+dist/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env — never commit secrets
+.env
+.env.*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# local artifacts: reference-site captures and verification traces stay local
+artifacts/reference/
+artifacts/verification/
+
+# foundry
+contracts/cache/
+contracts/out/
+contracts/broadcast/
+
+# editor
+.idea/
+.vscode/
