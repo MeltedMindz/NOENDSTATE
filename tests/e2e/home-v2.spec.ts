@@ -44,11 +44,15 @@ test("current work is an honest four-row index", async ({ page }) => {
   await expect(rows.first()).toBeFocused();
 });
 
-test("homepage chronicle rows carry id, type, date, and verification", async ({ page }) => {
+test("homepage chronicle rows carry id, type, date, and verification", async ({ page, request }) => {
+  // The homepage shows the latest records — assert against the live newest
+  // event rather than a hardcoded ID that drifts as the record grows.
+  const chronicle = await (await request.get("/api/chronicle")).json();
+  const newest = chronicle.events[0];
   await page.goto("/");
   const section = page.locator("section[aria-label='Chronicle']");
-  await expect(section.getByText("NES-0000")).toBeVisible();
-  await expect(section.getByText("studio founded")).toBeVisible();
+  await expect(section.getByText(newest.eventId)).toBeVisible();
+  await expect(section.getByText(newest.type.replace(/_/g, " ")).first()).toBeVisible();
   await expect(section.getByText("Studio disclosed").first()).toBeVisible();
   await expect(section.getByRole("link", { name: /Full Chronicle/i })).toBeVisible();
 });
