@@ -11,9 +11,16 @@ test.describe("reduced motion", () => {
       els.filter((el) => getComputedStyle(el).opacity === "0").length
     );
     expect(hidden).toBe(0);
-    // Canvas exists (static drawing) and page remains interactive.
+    // V2: the homepage has no canvas — first paint needs no JavaScript.
+    await expect(page.locator("canvas")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /Enter the studio/i })).toBeVisible();
+  });
+
+  test("state zero hosts the procedural field, static under reduced motion", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/state-zero");
     await expect(page.locator("canvas")).toHaveCount(1);
-    await expect(page.getByRole("link", { name: /Explore the studio/i })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 });
 

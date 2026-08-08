@@ -50,7 +50,7 @@ export function ChronicleList({
               <time dateTime={event.occurredAt} className={styles.date}>
                 {event.occurredAt}
               </time>
-              {!compact && <VerificationBadge status={event.verificationStatus} />}
+              <VerificationBadge status={event.verificationStatus} />
             </span>
           </Link>
         </li>

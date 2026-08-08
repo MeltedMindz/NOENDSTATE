@@ -1,316 +1,168 @@
 import Link from "next/link";
-import { StateField } from "@/components/StateField";
-import { Reveal } from "@/components/Reveal";
-import { CTA, ArrowLink, RecordHeader, VerificationBadge } from "@/components/ui";
 import { ChronicleList } from "@/components/ChronicleList";
-import { BuildDiagram, RecordDiagram, CompoundDiagram } from "@/components/PrincipleDiagrams";
+import { ArrowLink } from "@/components/ui";
 import { getBuilds, getChronicle, getProjects } from "@/lib/content";
-import { community } from "@/config/community";
+import { featureFlags } from "@/config/economics";
 import styles from "./home.module.css";
 
 export default function HomePage() {
   const events = getChronicle();
   const projects = getProjects();
-  const builds = getBuilds();
+  const build = getBuilds().find((b) => b.id === "BUILD-000");
+  const recordCount = String(events.length).padStart(4, "0");
+  const stateZeroLocked = !featureFlags.stateZeroMintEnabled;
+
+  const WORK = [
+    {
+      key: "BUILD-000",
+      href: "/build",
+      name: "Studio foundation",
+      desc: "The site, content systems, and protocol prototypes — the studio's first build.",
+      status: build?.status ?? "building",
+      tone: "building",
+    },
+    {
+      key: "SZ",
+      href: "/state-zero",
+      name: "State Zero",
+      desc: "Founding-cohort architecture. Not a registered project; no tokens exist.",
+      status: stateZeroLocked ? "locked" : "unlocked",
+      tone: "caution",
+    },
+    {
+      key: "NES",
+      href: "/chronicle",
+      name: "Chronicle",
+      desc: "The append-only company record.",
+      status: "live",
+      tone: "live",
+    },
+    {
+      key: "P",
+      href: "/projects",
+      name: "Project registry",
+      desc: `${projects.length} registered ${projects.length === 1 ? "project" : "projects"}.`,
+      status: "open",
+      tone: "neutral",
+    },
+  ] as const;
 
   return (
     <>
-      {/* ── 01 HERO ─────────────────────────────────────────────── */}
-      <section className={styles.hero} aria-label="Introduction">
-        <StateField />
-        <div className={`container ${styles.heroInner}`}>
-          <div className={`open-frame ${styles.heroFrame}`}>
-            <span className="frame-tick" aria-hidden="true" />
-            <p className={styles.heroEyebrow}>
-              An internet-native studio building protocols, products, and experiments
+      {/* ── 01 · introduction ─────────────────────────────────── */}
+      <section className={styles.intro} aria-label="Introduction">
+        <div className={`container ${styles.introInner}`}>
+          <h1 className={styles.declaration}>
+            Founded once.
+            <br />
+            Building indefinitely.
+          </h1>
+          <div className={styles.introSide}>
+            <p className={styles.introSentence}>
+              An independent product and protocol studio whose entire record —
+              including failure — is permanent.
             </p>
-            <h1 className={styles.heroTitle}>
-              Founded once.
-              <br />
-              <em>Building indefinitely.</em>
-            </h1>
-            <p className={styles.heroSub}>
-              NO END STATE is a persistent product and protocol studio.{" "}
-              <span className={styles.heroSubAccent}>
-                STATE ZERO preserves the record of everything that follows.
-              </span>
+            <p className={styles.introLinks}>
+              <ArrowLink href="/studio">Enter the studio</ArrowLink>
+              <ArrowLink href="/chronicle">Open the Chronicle</ArrowLink>
             </p>
-            <div className={styles.heroActions}>
-              <CTA href="/studio" primary>
-                Explore the studio
-              </CTA>
-              <CTA href="/chronicle">Enter the Chronicle</CTA>
-            </div>
           </div>
-          <p className={styles.heroFoot}>
-            <span>A permanent record of an unfinished company</span>
-            <span aria-hidden="true">SCROLL ↓</span>
-          </p>
         </div>
-      </section>
-
-      {/* ── 02 THESIS ───────────────────────────────────────────── */}
-      <section className="section">
-        <div className="container">
-          <RecordHeader serial="02" label="Thesis" />
-          <div className={styles.split}>
-            <Reveal>
-              <h2 className="display">
-                The company has <em>no final form.</em>
-              </h2>
-            </Reveal>
-            <Reveal>
-              <div className="prose">
-                <p>
-                  Most companies are built toward an exit, an acquisition, a final shape.
-                  NO END STATE is built the other way: the studio is the permanent object,
-                  and everything it makes is a chapter inside it.
-                </p>
-                <p>
-                  Projects are created beneath the studio as independent products.
-                  Successes compound into the next generation of work. Failures stay
-                  visible in the archive — recorded, dated, and kept. The company&rsquo;s
-                  history is treated as a product in its own right.
-                </p>
-              </div>
-            </Reveal>
+        {/* live readout — the broken rule is the page's one open-cell marker */}
+        <div className={styles.readout}>
+          <span className={styles.readoutTick} aria-hidden="true" />
+          <div className={`container ${styles.readoutInner}`}>
+            <span>Independent product + protocol studio</span>
+            <span>EST. 2026</span>
+            <span>
+              BUILD-000 / {(build?.status ?? "building").toUpperCase()}
+            </span>
+            <span>CHRONICLE / {recordCount} RECORDS</span>
+            <span>STATE ZERO / {stateZeroLocked ? "LOCKED" : "OPEN"}</span>
           </div>
         </div>
       </section>
 
-      {/* ── 03 OPERATING PRINCIPLES ─────────────────────────────── */}
-      <section className="section">
+      {/* ── 02 · current work ─────────────────────────────────── */}
+      <section className={styles.surface} aria-label="Current work">
         <div className="container">
-          <RecordHeader serial="03" label="Operating principles" />
-          <div className={styles.principles}>
-            <Reveal className={styles.principle}>
-              <BuildDiagram />
-              <h3 className="title">Build.</h3>
-              <p className="prose">
-                Create independent products that deserve to exist on their own —
-                protocols, financial mechanisms, AI-native tools, infrastructure.
-              </p>
-            </Reveal>
-            <Reveal className={styles.principle}>
-              <RecordDiagram />
-              <h3 className="title">Record.</h3>
-              <p className="prose">
-                Preserve launches, decisions, incidents, milestones, and failures in
-                an append-only Chronicle. Corrections add records; they never erase them.
-              </p>
-            </Reveal>
-            <Reveal className={styles.principle}>
-              <CompoundDiagram />
-              <h3 className="title">Compound.</h3>
-              <p className="prose">
-                Route knowledge, infrastructure, reputation, and eligible economics
-                into the next generation of work instead of restarting from zero.
-              </p>
-            </Reveal>
+          <div className="surface-head">
+            <p className="mono-label">Current work</p>
           </div>
-        </div>
-      </section>
-
-      {/* ── 04 PROJECTS ─────────────────────────────────────────── */}
-      <section className="section">
-        <div className="container">
-          <RecordHeader
-            serial="04"
-            label="Projects"
-            aside={<Link href="/projects">Full registry →</Link>}
-          />
-          {projects.length === 0 ? (
-            <div className={styles.split}>
-              <Reveal>
-                <h2 className="display">
-                  The registry is open.
-                  <br />
-                  <em>Nothing is in it yet.</em>
-                </h2>
-              </Reveal>
-              <Reveal>
-                <div className="prose">
-                  <p>
-                    That is not a placeholder — it is the honest state of a company that
-                    was founded this year. Every future project enters through the same
-                    door: a stable ID, a thesis, a published status, and a Chronicle
-                    trail from first commit to launch, sunset, or postmortem.
-                  </p>
-                  <p style={{ marginTop: "1em" }}>
-                    Projects move through six states: research, prototype, building,
-                    live, sunset, archived. A sunset project keeps its page, its record,
-                    and its postmortem. Nothing is deleted from the portfolio.
-                  </p>
-                  <div style={{ marginTop: "var(--space-5)" }}>
-                    <ArrowLink href="/projects">How projects enter the registry</ArrowLink>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-          ) : null}
-        </div>
-      </section>
-
-      {/* ── 05 STATE ZERO ───────────────────────────────────────── */}
-      <section className="section">
-        <div className="container">
-          <RecordHeader serial="05" label="State Zero" />
-          <div className={styles.split}>
-            <Reveal>
-              <h2 className="display">
-                One founding cohort.
-                <br />
-                <em>Everything that follows.</em>
-              </h2>
-            </Reveal>
-            <Reveal>
-              <div className="prose">
-                <p>
-                  STATE ZERO is the studio&rsquo;s fixed founding cohort — a permanent
-                  founding artifact, not a static collectible. Each artifact witnesses
-                  the same company history, carries its own transfer provenance, and
-                  accumulates the record of every project, launch, incident, and
-                  recovery that comes after it.
-                </p>
-                <p>
-                  There will be no second founding collection, no successor pass, no
-                  silent dilution of the beginning. Economic features are designed but
-                  not active; minting is not currently open, and final participation
-                  terms have not been published.
-                </p>
-                <div style={{ marginTop: "var(--space-5)" }}>
-                  <CTA href="/state-zero">Explore State Zero</CTA>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 06 CHRONICLE ────────────────────────────────────────── */}
-      <section className="section">
-        <div className="container">
-          <RecordHeader
-            serial="06"
-            label="Chronicle"
-            aside={`${events.length} records`}
-          />
-          <Reveal>
-            <h2 className="display" style={{ marginBottom: "var(--space-6)" }}>
-              Every event, <em>appended.</em>
-            </h2>
-          </Reveal>
-          <Reveal>
-            <ChronicleList events={events.slice(0, 4)} compact />
-          </Reveal>
-          <div style={{ marginTop: "var(--space-6)" }}>
-            <CTA href="/chronicle">Open the Chronicle</CTA>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 07 TRANSPARENCY ─────────────────────────────────────── */}
-      <section className="section">
-        <div className="container">
-          <RecordHeader serial="07" label="Transparency" />
-          <div className={styles.split}>
-            <Reveal>
-              <h2 className="display">
-                Facts carry their <em>own labels.</em>
-              </h2>
-            </Reveal>
-            <Reveal>
-              <div className="prose">
-                <p>
-                  Everything the studio publishes is classified before it is displayed.
-                  Onchain data is verified against a public chain. Studio disclosures
-                  are asserted and sourced. External data names its origin. Estimates
-                  are marked as estimates — and never dressed up as verified facts.
-                </p>
-                <ul className={styles.badgeList}>
-                  <li><VerificationBadge status="onchain_verified" /></li>
-                  <li><VerificationBadge status="studio_disclosed" /></li>
-                  <li><VerificationBadge status="external" /></li>
-                  <li><VerificationBadge status="estimate" /></li>
-                </ul>
-                <div style={{ marginTop: "var(--space-5)" }}>
-                  <ArrowLink href="/treasury">See the treasury methodology</ArrowLink>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 08 BUILD IN PUBLIC ──────────────────────────────────── */}
-      <section className="section">
-        <div className="container">
-          <RecordHeader
-            serial="08"
-            label="Build in public"
-            aside={<Link href="/build">The laboratory →</Link>}
-          />
-          {builds.map((b) => (
-            <Reveal key={b.id}>
-              <Link href="/build" className={styles.buildCard}>
-                <span className="mono-label">{b.id}</span>
-                <span className={styles.buildTitle}>{b.title}</span>
-                <span className={styles.buildState}>{b.currentState}</span>
-                <span className="status-pill" data-tone="building">
-                  <span className="dot" aria-hidden="true" />
-                  {b.status}
-                </span>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ── 09 COMMUNITY ────────────────────────────────────────── */}
-      <section className="section">
-        <div className="container">
-          <RecordHeader serial="09" label="Community" />
-          <div className={styles.surfaces}>
-            {Object.values(community).map((s) => (
-              <Reveal key={s.name} className={styles.surface}>
-                <h3 className="title">{s.name}</h3>
-                <p className={styles.surfaceRole}>{s.role}</p>
-                {s.url && s.status === "live" ? (
-                  <a href={s.url} className="arrow-link" rel="noopener noreferrer" target="_blank">
-                    Open <span className="arrow" aria-hidden="true">→</span>
-                  </a>
-                ) : (
-                  <span className="status-pill">
-                    <span className="dot" aria-hidden="true" />
-                    {s.status === "opening_soon" ? "Opening soon" : "Not yet public"}
+          <ul className="index">
+            {WORK.map((w) => (
+              <li key={w.key}>
+                <Link href={w.href} className="index-row">
+                  <span className="index-key">{w.key}</span>
+                  <span className="index-name">{w.name}</span>
+                  <span className="index-desc">{w.desc}</span>
+                  <span className="index-side">
+                    <span className="status-pill" data-tone={w.tone}>
+                      <span className="dot" aria-hidden="true" />
+                      {w.status}
+                    </span>
                   </span>
-                )}
-              </Reveal>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* ── 10 FINAL ────────────────────────────────────────────── */}
-      <section className="section">
+      {/* ── 03 · chronicle ────────────────────────────────────── */}
+      <section className={styles.surface} aria-label="Chronicle">
         <div className="container">
-          <Reveal>
-            <div className={`open-frame ${styles.finalFrame}`}>
-              <span className="frame-tick" aria-hidden="true" />
-              <h2 className={styles.finalTitle}>
-                This is State Zero.
-                <br />
-                <em>Everything else comes after.</em>
-              </h2>
-              <div className={styles.finalActions}>
-                <CTA href="/manifesto" primary>
-                  Read the manifesto
-                </CTA>
-                <CTA href="/chronicle">Enter the Chronicle</CTA>
-                <CTA href="/build">Follow the build</CTA>
-              </div>
-            </div>
-          </Reveal>
+          <div className="surface-head">
+            <p className="mono-label">Chronicle — latest records</p>
+            <ArrowLink href="/chronicle">Full Chronicle</ArrowLink>
+          </div>
+          <ChronicleList events={events.slice(0, 4)} compact />
+        </div>
+      </section>
+
+      {/* ── 04 · operating model ──────────────────────────────── */}
+      <section className={styles.surface} aria-label="Operating model">
+        <div className="container">
+          <div className="surface-head">
+            <p className="mono-label">Operating model</p>
+          </div>
+          <h2 className="display" style={{ maxWidth: "18ch" }}>
+            The company has no final form.
+          </h2>
+          <ol className={styles.model}>
+            <li>
+              <span className="mono-label">01 / Build</span>
+              <span>Create independent products that deserve to exist on their own.</span>
+            </li>
+            <li>
+              <span className="mono-label">02 / Record</span>
+              <span>Append every launch, decision, incident, and failure to the Chronicle.</span>
+            </li>
+            <li>
+              <span className="mono-label">03 / Compound</span>
+              <span>Route knowledge, infrastructure, and eligible economics into the next work.</span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      {/* ── 05 · state zero ───────────────────────────────────── */}
+      <section className={styles.surface} aria-label="State Zero">
+        <div className="container">
+          <div className="surface-head">
+            <p className="mono-label">State Zero</p>
+          </div>
+          <div className={styles.stateZero}>
+            <p className={styles.stateZeroLine}>
+              The fixed founding cohort — one artifact class that accumulates the
+              company&rsquo;s entire history. Never recreated, never diluted.
+            </p>
+            <p className={styles.stateZeroStatus}>
+              NO TOKENS EXIST · MINT NOT ACTIVE · TERMS NOT PUBLISHED ·
+              ARCHITECTURE PREVIEW
+            </p>
+            <ArrowLink href="/state-zero">Explore State Zero</ArrowLink>
+          </div>
         </div>
       </section>
     </>

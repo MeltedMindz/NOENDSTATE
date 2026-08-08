@@ -14,7 +14,7 @@
 
 @media (min-width: 60rem) {
   .top {
-    grid-template-columns: 1.2fr 2fr;
+    grid-template-columns: 1.1fr 2.4fr;
   }
 }
 
@@ -25,9 +25,17 @@
 }
 
 .line {
-  font-family: var(--font-display);
-  font-style: italic;
+  font-size: var(--text-small);
   color: var(--ash);
+  max-width: 24rem;
+}
+
+.inquire {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: 0.04em;
+  color: var(--ash);
+  max-width: 24rem;
 }
 
 .nav {
@@ -38,7 +46,7 @@
 
 @media (min-width: 40rem) {
   .nav {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -87,15 +95,27 @@
   border-top: 1px solid var(--rule);
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   justify-content: space-between;
   gap: var(--space-4);
 }
 
 .copyright {
-  font-size: var(--text-small);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
   color: var(--ash);
 }
 
+.commit {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--ash);
+}
+
+/* The single serif intervention outside /manifesto. */
 .closing {
   font-family: var(--font-display);
   font-style: italic;

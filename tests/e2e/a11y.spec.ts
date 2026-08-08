@@ -20,7 +20,7 @@ for (const route of PRIMARY_ROUTES) {
 
 test("menu open state passes axe", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Index" }).click();
+  await page.getByRole("button", { name: "Menu" }).click();
   await expect(page.getByRole("dialog", { name: "Site index" })).toBeVisible();
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa"])

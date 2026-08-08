@@ -125,10 +125,12 @@ export function EmptyState({
 }) {
   return (
     <div
-      className="open-frame"
-      style={{ padding: "var(--space-7) var(--space-6)", maxWidth: "44rem" }}
+      style={{
+        borderTop: "1px solid var(--rule-strong)",
+        paddingTop: "var(--space-5)",
+        maxWidth: "44rem",
+      }}
     >
-      <span className="frame-tick" aria-hidden="true" />
       <h3 className="title" style={{ marginBottom: "var(--space-4)" }}>
         {title}
       </h3>

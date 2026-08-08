@@ -53,8 +53,9 @@ export function StateField() {
       if (!canvas || !ctx) return;
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
-      // New strata arrive in the lower third; everything above is history.
-      const y = h - 40 - Math.random() * (h * 0.3);
+      // New strata arrive across the lower three-quarters; the top stays
+      // open — the record has room to receive.
+      const y = h - 24 - Math.random() * (h * 0.72);
       const isSignal = Math.random() < 0.12;
       const color = isSignal
         ? SIGNALS[Math.floor(Math.random() * SIGNALS.length)]

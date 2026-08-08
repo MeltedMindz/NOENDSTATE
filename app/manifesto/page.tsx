@@ -88,7 +88,7 @@ export default function ManifestoPage() {
                   }}
                 >
                   <span className="mono-label">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="display" style={{ fontSize: "clamp(1.25rem, 2.6vw, 1.75rem)" }}>
+                  <span className="display-serif" style={{ fontSize: "clamp(1.25rem, 2.6vw, 1.75rem)" }}>
                     {p}
                   </span>
                 </div>

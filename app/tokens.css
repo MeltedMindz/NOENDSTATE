@@ -30,17 +30,18 @@
   --font-ui: var(--font-grotesk), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
 
-  --text-hero: clamp(2.75rem, 7.5vw, 6.25rem);
-  --text-display: clamp(2rem, 4.5vw, 3.5rem);
-  --text-title: clamp(1.375rem, 2.2vw, 1.75rem);
+  /* Sized so "Building indefinitely." holds one line on desktop widths. */
+  --text-hero: clamp(3.25rem, 8.5vw, 9.25rem);
+  --text-display: clamp(2rem, 4vw, 3.25rem);
+  --text-title: clamp(1.25rem, 2vw, 1.625rem);
   --text-body: 1.0625rem;
   --text-small: 0.9375rem;
   --text-mono: 0.8125rem;
   --text-mono-xs: 0.6875rem;
 
-  --leading-tight: 1.05;
-  --leading-display: 1.12;
-  --leading-body: 1.72;
+  --leading-tight: 0.98;
+  --leading-display: 1.08;
+  --leading-body: 1.65;
 
   --tracking-mono: 0.08em;
   --tracking-wide: 0.14em;
@@ -58,9 +59,11 @@
   --space-section: clamp(4.5rem, 10vw, 8.5rem);
 
   /* ── layout ────────────────────────────────────────────────── */
-  --container: 76rem;
-  --container-pad: clamp(1.25rem, 4vw, 3rem);
-  --measure: 65ch;
+  /* V2: wide editorial grid — broad utilization, narrow outer gutters. */
+  --container: 100rem;
+  --container-pad: clamp(1.25rem, 2.5vw, 2.25rem);
+  --measure: 62ch;
+  --grid-gap: clamp(1rem, 2vw, 2rem);
 
   /* ── geometry ──────────────────────────────────────────────── */
   /* The system is rectilinear. Radius exists only for tiny status dots. */
