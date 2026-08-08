@@ -106,16 +106,30 @@ h4 {
   text-wrap: balance;
 }
 
+/* V2: the display voice is the grotesk. The serif is reserved for rare
+   archival/editorial interventions via .display-serif. */
 .display {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: var(--text-display);
   line-height: var(--leading-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.display em {
+  font-style: normal;
+  color: inherit;
+}
+
+.display-serif {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  line-height: 1.15;
   font-weight: 500;
   letter-spacing: -0.01em;
 }
 
-.display em,
-.display .accent-line {
+.display-serif em {
   font-style: italic;
 }
 
@@ -181,60 +195,27 @@ h4 {
   text-decoration: none;
 }
 
-/* ── open frame: the signature ────────────────────────────────── */
-/* A state cell with one permanently open boundary. The gap in the top
-   edge is the mark of the system: it can always receive another event. */
-.open-frame {
-  position: relative;
-  border: 1px solid var(--rule-strong);
-  border-top: none;
-}
-
-.open-frame::before,
-.open-frame::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  height: 1px;
-  background: var(--rule-strong);
-}
-
-.open-frame::before {
-  left: 0;
-  width: calc(62% - 2.25rem);
-}
-
-.open-frame::after {
-  right: 0;
-  width: calc(38% - 2.25rem);
-}
-
-/* Small cyan tick drifting out of the opening. */
-.open-frame > .frame-tick {
-  position: absolute;
-  top: -0.85rem;
-  left: 62%;
-  width: 1px;
-  height: 0.85rem;
-  background: var(--signal-cyan);
-}
+/* V2: the open-frame CSS container system is retired. The open state cell
+   survives as the mark (components/Marks.tsx, icons, StateRenderer) and as
+   the single broken-rule marker on the homepage readout. */
 
 /* ── controls ─────────────────────────────────────────────────── */
+/* V2: bordered CTAs are retired. The default action language is an
+   editorial text link — mono, uppercase, arrow, underline on hover. */
 .cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.75em;
+  gap: 0.6em;
   font-family: var(--font-mono);
   font-size: var(--text-mono);
   letter-spacing: var(--tracking-mono);
   text-transform: uppercase;
   text-decoration: none;
   color: var(--bone);
-  border: 1px solid var(--rule-strong);
-  padding: 0.9em 1.4em;
-  transition: border-color var(--duration-fast) var(--ease-state),
-    color var(--duration-fast) var(--ease-state),
-    background-color var(--duration-fast) var(--ease-state);
+  padding: 0.35em 0;
+  border-bottom: 1px solid transparent;
+  transition: color var(--duration-fast) var(--ease-state),
+    border-color var(--duration-fast) var(--ease-state);
 }
 
 .cta .arrow {
@@ -243,8 +224,7 @@ h4 {
 
 .cta:hover {
   color: var(--signal-cyan);
-  border-color: var(--signal-cyan);
-  background: rgba(89, 217, 195, 0.04);
+  border-bottom-color: var(--signal-cyan);
 }
 
 .cta:hover .arrow {
@@ -252,7 +232,7 @@ h4 {
 }
 
 .cta--primary {
-  border-color: var(--bone);
+  border-bottom-color: var(--rule-strong);
 }
 
 .arrow-link {
@@ -426,6 +406,81 @@ h4 {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ── V2 index rows: the site's replacement for cards ──────────── */
+.index {
+  list-style: none;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.index-row {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  grid-template-areas:
+    "key name"
+    "key desc"
+    "key side";
+  gap: var(--space-1) var(--space-5);
+  align-items: baseline;
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  transition: background-color var(--duration-fast) var(--ease-state);
+}
+
+@media (min-width: 64rem) {
+  .index-row {
+    grid-template-columns: 9rem minmax(0, 1.2fr) minmax(0, 2fr) auto;
+    grid-template-areas: "key name desc side";
+    gap: var(--space-5);
+  }
+}
+
+a.index-row:hover {
+  background: rgba(233, 228, 216, 0.03);
+}
+
+a.index-row:hover .index-name {
+  color: var(--signal-cyan);
+}
+
+.index-key {
+  grid-area: key;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  color: var(--ash);
+}
+
+.index-name {
+  grid-area: name;
+  font-family: var(--font-ui);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--bone);
+  transition: color var(--duration-fast) var(--ease-state);
+}
+
+.index-desc {
+  grid-area: desc;
+  font-size: var(--text-small);
+  color: var(--ash);
+}
+
+.index-side {
+  grid-area: side;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Section label row: mono label left, quiet link right. */
+.surface-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
 }
 
 /* ── utility ──────────────────────────────────────────────────── */

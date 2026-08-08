@@ -27,35 +27,38 @@ export default function CommunityPage() {
       <section className="section" style={{ marginTop: "var(--space-8)" }}>
         <div className="container">
           <RecordHeader serial="07.1" label="Surfaces" />
-          <ul style={{ listStyle: "none", display: "grid", gap: "var(--space-5)", maxWidth: "52rem" }}>
-            {surfaces.map((s) => (
-              <li
-                key={s.name}
-                style={{
-                  border: "1px solid var(--rule-strong)",
-                  padding: "var(--space-6)",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "var(--space-4)",
-                  alignItems: "center",
-                }}
-              >
-                <div style={{ flexGrow: 1, minWidth: "14rem" }}>
-                  <h2 className="title">{s.name}</h2>
-                  <p style={{ color: "var(--ash)", fontSize: "var(--text-small)" }}>{s.role}</p>
-                </div>
-                {s.url && s.status === "live" ? (
-                  <a href={s.url} className="cta" rel="noopener noreferrer" target="_blank">
-                    Open {s.name} <span className="arrow" aria-hidden="true">→</span>
+          <ul className="index" style={{ maxWidth: "64rem" }}>
+            {surfaces.map((s) =>
+              s.url && s.status === "live" ? (
+                <li key={s.name}>
+                  <a href={s.url} className="index-row" rel="noopener noreferrer" target="_blank">
+                    <span className="index-key">LIVE</span>
+                    <span className="index-name">Open {s.name}</span>
+                    <span className="index-desc">{s.role}</span>
+                    <span className="index-side">
+                      <span className="status-pill" data-tone="live">
+                        <span className="dot" aria-hidden="true" />
+                        live
+                      </span>
+                    </span>
                   </a>
-                ) : (
-                  <span className="status-pill">
-                    <span className="dot" aria-hidden="true" />
-                    {s.status === "opening_soon" ? "Opening soon" : "Not yet public"}
+                </li>
+              ) : (
+                <li key={s.name} className="index-row">
+                  <span className="index-key">—</span>
+                  <span className="index-name" style={{ color: "var(--ash)" }}>
+                    {s.name}
                   </span>
-                )}
-              </li>
-            ))}
+                  <span className="index-desc">{s.role}</span>
+                  <span className="index-side">
+                    <span className="status-pill">
+                      <span className="dot" aria-hidden="true" />
+                      {s.status === "opening_soon" ? "Opening soon" : "Not yet public"}
+                    </span>
+                  </span>
+                </li>
+              )
+            )}
           </ul>
         </div>
       </section>

@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { grotesk, newsreader, plexMono } from "@/app/fonts";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { getChronicle } from "@/lib/content";
 import { studio } from "@/config/studio";
 import "./globals.css";
 
@@ -68,7 +67,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const latest = getChronicle()[0];
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -105,7 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <SiteHeader latestEventId={latest?.eventId ?? "NES-0000"} />
+        <SiteHeader />
         <main id="main" style={{ paddingTop: "3.75rem" }}>
           {children}
         </main>

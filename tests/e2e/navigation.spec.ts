@@ -2,13 +2,13 @@ import { expect, test } from "@playwright/test";
 
 test("fullscreen menu opens, navigates, and closes", async ({ page }) => {
   await page.goto("/");
-  const toggle = page.getByRole("button", { name: "Index" });
+  const toggle = page.getByRole("button", { name: "Menu" });
   await toggle.click();
 
   const menu = page.getByRole("dialog", { name: "Site index" });
   await expect(menu).toBeVisible();
   await expect(menu.getByText("Chronicle")).toBeVisible();
-  await expect(menu.getByText("The append-only record")).toBeVisible();
+  await expect(menu.getByText("04")).toBeVisible();
 
   await menu.getByRole("link", { name: /04.*Chronicle/s }).click();
   await expect(page).toHaveURL(/\/chronicle/);
@@ -17,18 +17,18 @@ test("fullscreen menu opens, navigates, and closes", async ({ page }) => {
 
 test("menu closes with Escape and returns focus to toggle", async ({ page }) => {
   await page.goto("/");
-  const toggle = page.getByRole("button", { name: "Index" });
+  const toggle = page.getByRole("button", { name: "Menu" });
   await toggle.click();
   await expect(page.getByRole("dialog", { name: "Site index" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog", { name: "Site index" })).toBeHidden();
-  await expect(page.getByRole("button", { name: "Index" })).toBeFocused();
+  await expect(page.getByRole("button", { name: "Menu" })).toBeFocused();
 });
 
 test("menu traps focus while open", async ({ page, isMobile }) => {
   test.skip(isMobile, "Tab-key navigation is a physical-keyboard behavior");
   await page.goto("/");
-  await page.getByRole("button", { name: "Index" }).click();
+  await page.getByRole("button", { name: "Menu" }).click();
   const menu = page.getByRole("dialog", { name: "Site index" });
   await expect(menu).toBeVisible();
   // Tab through more stops than the menu has; focus must stay inside.
@@ -44,7 +44,7 @@ test("menu traps focus while open", async ({ page, isMobile }) => {
 
 test("body scroll locks while menu is open", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Index" }).click();
+  await page.getByRole("button", { name: "Menu" }).click();
   const overflow = await page.evaluate(() => document.body.style.overflow);
   expect(overflow).toBe("hidden");
   await page.keyboard.press("Escape");

@@ -38,10 +38,11 @@ export default function BuildPage() {
               <li
                 key={b.id}
                 style={{
-                  border: "1px solid var(--rule-strong)",
-                  padding: "var(--space-6)",
+                  borderTop: "1px solid var(--rule-strong)",
+                  paddingTop: "var(--space-5)",
                   display: "grid",
                   gap: "var(--space-4)",
+                  maxWidth: "56rem",
                 }}
               >
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-4)", alignItems: "center" }}>

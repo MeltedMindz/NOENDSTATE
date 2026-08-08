@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageIntro } from "@/components/PageIntro";
 import { Reveal } from "@/components/Reveal";
+import { StateField } from "@/components/StateField";
 import { EmptyState, RecordHeader, CTA } from "@/components/ui";
 import { pageMetadata } from "@/lib/site-metadata";
 import { featureFlags } from "@/config/economics";
@@ -52,7 +53,23 @@ export default function StateZeroPage() {
         </p>
       </PageIntro>
 
-      <section className="section" style={{ marginTop: "var(--space-8)" }}>
+      {/* The generative state system lives here by design — the accumulating
+          field is State Zero's focal object, not homepage decoration. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "relative",
+          height: "20rem",
+          marginTop: "var(--space-8)",
+          borderTop: "1px solid var(--rule)",
+          borderBottom: "1px solid var(--rule)",
+          overflow: "hidden",
+        }}
+      >
+        <StateField />
+      </div>
+
+      <section className="section section--flush">
         <div className="container">
           <RecordHeader serial="03.1" label="What it is / what it is not" />
           <div className="prose">

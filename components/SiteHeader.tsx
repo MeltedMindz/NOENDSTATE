@@ -6,13 +6,13 @@ import { Wordmark } from "@/components/Marks";
 import styles from "./SiteHeader.module.css";
 
 const MENU_ITEMS = [
-  { index: "01", href: "/studio", name: "Studio", role: "The persistent company" },
-  { index: "02", href: "/projects", name: "Projects", role: "Independent products, one record" },
-  { index: "03", href: "/state-zero", name: "State Zero", role: "The founding cohort" },
-  { index: "04", href: "/chronicle", name: "Chronicle", role: "The append-only record" },
-  { index: "05", href: "/treasury", name: "Treasury", role: "Capital, verified or labeled" },
-  { index: "06", href: "/build", name: "Build", role: "The public laboratory" },
-  { index: "07", href: "/community", name: "Community", role: "The public surfaces" },
+  { index: "01", href: "/studio", name: "Studio" },
+  { index: "02", href: "/projects", name: "Projects" },
+  { index: "03", href: "/state-zero", name: "State Zero" },
+  { index: "04", href: "/chronicle", name: "Chronicle" },
+  { index: "05", href: "/treasury", name: "Treasury" },
+  { index: "06", href: "/build", name: "Build" },
+  { index: "07", href: "/community", name: "Community" },
 ];
 
 const MENU_SECONDARY = [
@@ -22,7 +22,7 @@ const MENU_SECONDARY = [
   { href: "/legal", name: "Legal" },
 ];
 
-export function SiteHeader({ latestEventId }: { latestEventId: string }) {
+export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
@@ -84,9 +84,6 @@ export function SiteHeader({ latestEventId }: { latestEventId: string }) {
             <Link href="/chronicle">Chronicle</Link>
           </nav>
           <div className={styles.headerRight}>
-            <span className={styles.recMarker} aria-label={`Latest Chronicle record ${latestEventId}`}>
-              REC {latestEventId}
-            </span>
             <button
               ref={toggleRef}
               className={styles.menuButton}
@@ -94,7 +91,7 @@ export function SiteHeader({ latestEventId }: { latestEventId: string }) {
               aria-controls="fullscreen-menu"
               onClick={() => setOpen((v) => !v)}
             >
-              {open ? "Close" : "Index"}
+              {open ? "Close" : "Menu"}
             </button>
           </div>
         </div>
@@ -110,7 +107,7 @@ export function SiteHeader({ latestEventId }: { latestEventId: string }) {
         hidden={!open}
       >
         <div className={`container ${styles.menuInner}`}>
-          <p className="mono-label">Site index — an unfinished company</p>
+          <p className="mono-label">Index</p>
           <nav aria-label="Site index">
             <ul className={styles.menuList}>
               {MENU_ITEMS.map((item) => (
@@ -118,7 +115,6 @@ export function SiteHeader({ latestEventId }: { latestEventId: string }) {
                   <Link href={item.href} className={styles.menuRow} onClick={() => setOpen(false)}>
                     <span className={styles.menuIndex}>{item.index}</span>
                     <span className={styles.menuName}>{item.name}</span>
-                    <span className={styles.menuRole}>{item.role}</span>
                   </Link>
                 </li>
               ))}
@@ -133,9 +129,7 @@ export function SiteHeader({ latestEventId }: { latestEventId: string }) {
               ))}
             </ul>
           </nav>
-          <p className={styles.menuFoot}>
-            Founded once. Building indefinitely.
-          </p>
+          <p className={styles.menuFoot}>Founded once. Building indefinitely.</p>
         </div>
       </div>
     </>
